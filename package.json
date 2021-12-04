@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node ./scripts/prebuild.js",
+    "prebuild": "node ./scripts/prebuild.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
