@@ -31,7 +31,9 @@ const Post: NextPage = () => {
         <title>{postTitle}</title>
         <meta name="author" content={postAuthor} />
       </Head>
-      <div dangerouslySetInnerHTML={{ __html: postContent }}></div>
+      <section className="section">
+        <div dangerouslySetInnerHTML={{ __html: postContent }}></div>
+      </section>
     </>;
   } else {
     return <Error statusCode={404} />;
