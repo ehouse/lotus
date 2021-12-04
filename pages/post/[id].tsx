@@ -32,6 +32,12 @@ const Post: NextPage = () => {
         <meta name="author" content={postAuthor} />
       </Head>
       <section className="section">
+        <div className="content">
+          <div className="text-center">
+            <h1>👋 Hello world!</h1>
+            <h6 className="font-alt font-light">A webpage powered by <b>Cirrus.</b></h6>
+          </div>
+        </div>
         <div dangerouslySetInnerHTML={{ __html: postContent }}></div>
       </section>
     </>;
