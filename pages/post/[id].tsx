@@ -1,49 +1,41 @@
-
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Error from 'next/error';
 
 import { useRouter } from 'next/router';
-import BlogContent from '../../dest/content.json';
-import BlogSideCar from '../../dest/sidecar.json';
-
-type PostTitle = keyof typeof BlogContent;
-
-type PostContent = Record<PostTitle, string>;
-
-interface PostMetadata {
-  Title: string;
-  Author: string;
-  Date: string;
-}
-
-type Sidecar = Record<PostTitle, PostMetadata>;
+import JSONContent from '../../dest/content.json';
+import JSONSidecar from '../../dest/sidecar.json';
+import type { IJSONContent, IJSONSidecar } from '../../types';
 
 const Post: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
+  // Recast to lose specific JSON type inports
+  const blogContent: IJSONContent = JSONContent;
+  const blogSidecar: IJSONSidecar = JSONSidecar;
+
   if (typeof id === 'string') {
 
-    // TODO Resolve this awful type casting 
-    if (BlogSideCar[id as PostTitle] === undefined) {
+    // Return 404 if post does not exist
+    if (blogSidecar[id] === undefined) {
       return <Error statusCode={404} />;
     }
 
-    const postTitleQuery = id as PostTitle;
-
-    const postTitle = BlogSideCar[postTitleQuery].Title;
-    const postContent = BlogContent[postTitleQuery];
+    const postTitle = blogSidecar[id].Title;
+    const postAuthor = blogSidecar[id].Author;
+    const postContent = blogContent[id];
 
     return <>
       <Head>
         <title>{postTitle}</title>
+        <meta name="author" content={postAuthor} />
       </Head>
       <div dangerouslySetInnerHTML={{ __html: postContent }}></div>
     </>;
+  } else {
+    return <Error statusCode={404} />;
   }
-
-  return <div />;
 };
 
 export default Post;
